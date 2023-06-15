@@ -1,0 +1,47 @@
+name: Update Script
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+jobs:
+  update:
+    permissions:
+      contents: write
+      packages: write
+      pull-requests: write
+      issues: write
+      statuses: write
+      deployments: write
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "19"
+      - name: Init the package.json
+        run: npm init -y
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Install Required Packages
+        run: npm install js-base64 @octokit/rest discord-experiments prettier
+
+      - name: Run Update Script
+        run: node update.js
+
+      - name: Commit Changes
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "GitHub Actions[Bot]"
+          git diff-index --quiet HEAD || git commit -am "✅ Data updated!" 
+        
+      - name: Push Changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.ACCESS_TOKEN }}
