@@ -53,7 +53,7 @@ async function run() {
     }
 
     // Generate the markdown comment
-    let comment = `# Pomelo usernames taken list:\n\n`;
+    let comment = `# Bad domains datamining:\n\n`;
     if (addedUsernames.length > 0) {
       comment += `## Added:\n\`\`\`diff\n${addedUsernames.map(username => `${username}`).join('\n')}\n\`\`\`\n`;
     }
