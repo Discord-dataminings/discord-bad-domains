@@ -29,8 +29,6 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      - name: Install Required Packages
-        run: npm install js-base64 @octokit/rest discord-experiments prettier
 
       - name: Run Update Script
         run: node update.js
